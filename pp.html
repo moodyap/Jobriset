@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate Card — Moody Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #161616;
+      --border: #2a2a2a;
+      --pink: #e8739a;
+      --pink-soft: rgba(232,115,154,0.12);
+      --gold: #d4a853;
+      --white: #f5f0eb;
+      --gray: #888;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(232,115,154,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(212,168,83,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .wrapper { max-width: 420px; margin: 0 auto; position: relative; }
+    .header {
+      text-align: center;
+      padding: 32px 0 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .brand-badge {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--pink);
+      border: 1px solid rgba(232,115,154,0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .brand-name span { color: var(--pink); font-style: italic; }
+    .brand-sub {
+      font-size: 0.68rem;
+      color: var(--gray);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .stats-bar {
+      display: flex;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .stat-item {
+      flex: 1;
+      padding: 16px 12px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--pink);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.58rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .section-title {
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: fadeUp 0.6s 0.15s ease both;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .packages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .pkg {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease both;
+      transition: border-color 0.2s;
+    }
+    .pkg:nth-child(1) { animation-delay: 0.2s; }
+    .pkg:nth-child(2) { animation-delay: 0.25s; border-color: var(--pink); }
+    .pkg:nth-child(3) { animation-delay: 0.3s; }
+    .pkg:nth-child(2)::before {
+      content: '★ POPULAR';
+      position: absolute;
+      top: 12px; right: 12px;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      background: var(--pink-soft);
+      border: 1px solid rgba(232,115,154,0.3);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .pkg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .pkg-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .pkg-price { text-align: right; }
+    .pkg-price-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--pink);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .pkg-price-label { font-size: 0.55rem; color: var(--gray); letter-spacing: 0.05em; }
+    .pkg-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .pkg-features li {
+      font-size: 0.7rem;
+      color: #aaa;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .pkg-features li::before {
+      content: '✦';
+      color: var(--pink);
+      font-size: 0.55rem;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .addons {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.35s ease both;
+    }
+    .addon-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .addon-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .addon-row:first-child { padding-top: 0; }
+    .addon-name { font-size: 0.72rem; color: var(--white); font-weight: 500; }
+    .addon-desc { font-size: 0.6rem; color: var(--gray); margin-top: 2px; }
+    .addon-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+    .rules {
+      background: rgba(232,115,154,0.05);
+      border: 1px solid rgba(232,115,154,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .rules-title {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .rules ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .rules ul li {
+      font-size: 0.68rem;
+      color: #aaa;
+      display: flex;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .rules ul li::before { content: '⚠'; font-size: 0.6rem; flex-shrink: 0; padding-top: 1px; }
+    .cta { text-align: center; animation: fadeUp 0.6s 0.45s ease both; }
+    .cta p { font-size: 0.68rem; color: var(--gray); margin-bottom: 16px; line-height: 1.7; }
+    .btn-order {
+      display: inline-block;
+      background: var(--pink);
+      color: white;
+      text-decoration: none;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+      box-shadow: 0 8px 24px rgba(232,115,154,0.25);
+    }
+    .btn-order:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(232,115,154,0.35); }
+    .cta-note { font-size: 0.58rem; color: #555; margin-top: 12px; letter-spacing: 0.05em; }
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 0.58rem;
+      color: #444;
+      letter-spacing: 0.1em;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="brand-badge">✦ Media Kit 2026 ✦</div>
+    <div class="brand-name">Moody<span>Media</span></div>
+    <div class="brand-sub">Job & Riset · Paid Promote · WhatsApp Group</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Member Aktif</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">Daily</div>
+      <div class="stat-label">Update Info</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Terverifikasi</div>
+    </div>
+  </div>
+
+  <div class="section-title">Paket Promosi</div>
+  <div class="packages">
+
+    <div class="pkg">
+      <div class="pkg-header">
+        <div class="pkg-name">Basic</div>
+        <div class="pkg-price">
+          <div class="pkg-price-num">Rp 50rb</div>
+          <div class="pkg-price-label">per broadcast</div>
+        </div>
+      </div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>1x broadcast ke seluruh member</li>
+        <li>Konten teks + link</li>
+        <li>Cocok untuk survei & form</li>
+      </ul>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-header">
+        <div class="pkg-name">Standard</div>
+        <div class="pkg-price">
+          <div class="pkg-price-num">Rp 75rb</div>
+          <div class="pkg-price-label">per broadcast</div>
+        </div>
+      </div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>1x broadcast ke seluruh member</li>
+        <li>Konten teks + gambar + link</li>
+        <li>Cocok untuk produk & promo</li>
+      </ul>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-header">
+        <div class="pkg-name">Premium</div>
+        <div class="pkg-price">
+          <div class="pkg-price-num">Rp 125rb</div>
+          <div class="pkg-price-label">per broadcast</div>
+        </div>
+      </div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>2x broadcast ke seluruh member</li>
+        <li>Konten teks + gambar + link</li>
+        <li>Cocok untuk event & launching</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="section-title">Add On</div>
+  <div class="addons">
+    <div class="addon-row">
+      <div>
+        <div class="addon-name">Extra Broadcast</div>
+        <div class="addon-desc">Tambahan 1x broadcast</div>
+      </div>
+      <div class="addon-price">+Rp 40rb</div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <div class="rules-title">Syarat & Ketentuan</div>
+    <ul>
+      <li>Pembayaran lunas sebelum konten ditayangkan</li>
+      <li>Wajib menyertakan bukti official brand/perusahaan</li>
+      <li>Konten tidak boleh mengandung unsur penipuan</li>
+      <li>Admin berhak menolak konten yang tidak sesuai</li>
+      <li>Jadwal tayang menyesuaikan antrian</li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <p>Tertarik promosi di grup kami?<br>Hubungi admin untuk info lebih lanjut!</p>
+    <a href="https://wa.me/6285719584885" class="btn-order">💬 Hubungi Admin</a>
+    <div class="cta-note">✦ Respon dalam 1x24 jam ✦</div>
+  </div>
+
+  <footer>© 2026 Moody Media · Rate Card v1.0</footer>
+
+</div>
+</body>
+</html>
