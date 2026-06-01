@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <title>30 Day Check-in Challenge – Moodyap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: rgb(228, 185, 211); font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+    /* GATE */
+    .gate { position: fixed; inset: 0; background: rgba(255,220,235,0.97); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 999; }
+    .gate-box { background: white; border: 2px solid #f4a7c0; border-radius: 20px; padding: 28px 22px; max-width: 360px; width: 100%; text-align: center; }
+    .gate-box h2 { color: #c2607a; font-size: 1.1rem; margin-bottom: 8px; }
+    .gate-box p { color: #888; font-size: 0.75rem; line-height: 1.7; margin-bottom: 12px; }
+    .btn-shopee { display: block; background: #f4a7c0; color: white; text-decoration: none; padding: 11px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; text-align: center; margin-top: 8px; }
+    .btn-unlock { display: none; width: 100%; background: #78c478; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer; margin-top: 8px; }
+    .timer-text { font-size: 0.68rem; color: #bbb; margin-top: 8px; }
+
+    /* HEADER */
+    .header { background: #f4a7c0; text-align: center; padding: 24px 16px; border-bottom: 2px solid #e87fa5; }
+    .header h1 { color: white; font-size: 1.5rem; margin: 0; }
+    .header p { color: white; font-size: 0.8rem; margin-top: 6px; }
+
+    /* CONTENT */
+    .content { padding: 16px; max-width: 480px; margin: 0 auto; }
+
+    /* SCREENS */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* CARDS */
+    .card { background: white; border: 1.5px solid #f4d0dc; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+    .card-title { font-size: 1rem; font-weight: bold; color: #c2607a; margin-bottom: 10px; }
+    .card-sub { font-size: 0.75rem; color: #888; line-height: 1.7; margin-bottom: 12px; }
+
+    /* PRIZE */
+    .prize-box { background: #fff5f8; border: 1.5px solid #f4d0dc; border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; gap: 12px; align-items: flex-start; }
+    .prize-emoji { font-size: 32px; flex-shrink: 0; }
+    .prize-title { font-size: 0.85rem; font-weight: bold; color: #c2607a; margin-bottom: 4px; }
+    .prize-desc { font-size: 0.72rem; color: #888; line-height: 1.6; }
+
+    /* HOW TO */
+    .how-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 0.75rem; color: #5a3d48; font-weight: bold; line-height: 1.6; }
+
+    /* INPUT */
+    input[type="text"] { width: 100%; padding: 11px 14px; border: 1.5px solid #f4d0dc; border-radius: 10px; font-size: 0.85rem; font-family: inherit; outline: none; margin-bottom: 8px; color: #5a3d48; }
+    input[type="text"]:focus { border-color: #f4a7c0; }
+
+    /* BUTTONS */
+    .btn-pink { display: block; background: #f4a7c0; color: white; text-decoration: none; padding: 13px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; text-align: center; margin-top: 8px; border: none; cursor: pointer; width: 100%; }
+    .btn-green { display: block; background: #78c478; color: white; text-decoration: none; padding: 13px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; text-align: center; margin-top: 8px; border: none; cursor: pointer; width: 100%; }
+    .btn-outline { display: block; background: white; color: #c2607a; text-decoration: none; padding: 13px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; text-align: center; margin-top: 8px; border: 1.5px solid #f4a7c0; cursor: pointer; width: 100%; }
+
+    /* PROGRESS */
+    .progress-wrap { margin-bottom: 12px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: #888; margin-bottom: 6px; }
+    .progress-label span:last-child { color: #c2607a; font-weight: bold; }
+    .progress-bar { height: 10px; background: #f4d0dc; border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #f4a7c0, #e87fa5); border-radius: 10px; transition: width .5s; }
+
+    /* CALENDAR */
+    .cal-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 16px; }
+    .cal-cell { aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; border: 1.5px solid #f4d0dc; background: #fff9fb; color: #d4a0b0; }
+    .cal-cell.done { background: #f4a7c0; border-color: #e87fa5; color: white; }
+    .cal-cell.today { background: #fff0f5; border-color: #c2607a; color: #c2607a; }
+
+    .already-done { background: #f0fff0; border: 1.5px solid #78c478; border-radius: 12px; padding: 14px; text-align: center; font-size: 0.8rem; font-weight: bold; color: #4a8a4a; }
+
+    /* GROUP */
+    .group-section { background: white; border: 1.5px solid #f4d0dc; border-radius: 16px; padding: 18px; margin: 8px 0 20px; text-align: center; }
+    .group-section h3 { color: #c2607a; font-size: 0.9rem; margin-bottom: 4px; }
+    .group-section p { color: #d4a0b0; font-size: 0.68rem; margin-bottom: 14px; }
+    .btn-group { display: block; background: #78c478; color: white; text-decoration: none; padding: 11px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; text-align: center; margin-bottom: 8px; }
+
+    /* FORM */
+    iframe { width: 100%; border: none; min-height: 520px; border-radius: 12px; }
+
+    /* DONE */
+    .done-box { text-align: center; padding: 32px 16px; }
+    .done-emoji { font-size: 64px; margin-bottom: 16px; }
+    .done-title { font-size: 1.2rem; font-weight: bold; color: #c2607a; margin-bottom: 8px; }
+    .done-msg { font-size: 0.8rem; color: #888; line-height: 1.7; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+  <!-- GATE -->
+  <div class="gate" id="gate">
+    <div class="gate-box">
+      <div>🌸</div>
+      <h2>Hai, Selamat Datang!</h2>
+      <p>Sebelum ikut challenge, klik link di bawah dulu ya! 🌸</p>
+      <a class="btn-shopee" href="https://s.shopee.co.id/30lH1ijIzr" target="_blank" onclick="startTimer()">
+        🛍️ Cek Produk Sponsor
+      </a>
+      <button class="btn-unlock" id="unlockBtn" onclick="unlockContent()">
+        ✅ Sudah Cek — Lanjut!
+      </button>
+      <p class="timer-text" id="timerText">Klik link di atas dulu ya</p>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1>🌸 30 Day Challenge</h1>
+    <p>Check-in tiap hari & menangkan hadiah dari Moodyap!</p>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME SCREEN -->
+    <div class="screen active" id="home-screen">
+
+      <div class="card">
+        <div class="prize-box">
+          <div class="prize-emoji">🎁</div>
+          <div>
+            <div class="prize-title">Hadiah Hari ke-30</div>
+            <div class="prize-desc">Skincare, makeup & surprise gifts eksklusif dari Moodyap untuk yang berhasil check-in 30 hari! 🌸</div>
+          </div>
+        </div>
+
+        <div class="card-title">📋 Cara Ikut</div>
+        <div class="how-item"><span>1️⃣</span><span>Daftar dengan nama & nomor HP kamu</span></div>
+        <div class="how-item"><span>2️⃣</span><span>Check-in setiap hari (wajib klik link Shopee dulu)</span></div>
+        <div class="how-item"><span>3️⃣</span><span>Selesaikan 30 hari berturut-turut</span></div>
+        <div class="how-item"><span>4️⃣</span><span>Menangkan hadiah random dari Moodyap! 🎉</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✏️ Daftar Sekarang</div>
+        <input type="text" id="name-input" placeholder="Nama lengkap kamu...">
+        <input type="text" id="wa-input" placeholder="Nomor HP / WA kamu...">
+        <button class="btn-pink" onclick="startChallenge()">Mulai Challenge →</button>
+      </div>
+
+      <div id="existing-btn" style="display:none">
+        <button class="btn-outline" onclick="goChallengeScreen()">Lanjut Check-in →</button>
+      </div>
+
+      <div class="group-section">
+        <h3>🌸 Gabung Grup Kami</h3>
+        <p>Dapat info loker lebih cepat!</p>
+        <a class="btn-group" href="https://chat.whatsapp.com/FFabFQqDoO4HonfpPx0HSs?mode=gi_t" target="_blank">💼 Grup Riset & Casting</a>
+        <a class="btn-group" href="https://chat.whatsapp.com/BC28zsl3QdLDQsUAy0QyTp?mode=gi_t" target="_blank">🎁 Grup Free Produk</a>
+      </div>
+
+    </div>
+
+    <!-- CHALLENGE SCREEN -->
+    <div class="screen" id="challenge-screen">
+
+      <div class="card">
+        <div class="card-title" id="challenge-greeting">Hei! 🌸</div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Progress check-in</span>
+            <span id="progress-text">0/30</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+        <div style="font-size:0.72rem;color:#d4a0b0;margin-bottom:14px" id="days-left">30 hari lagi menuju hadiah 🎁</div>
+
+        <div style="font-size:0.8rem;font-weight:bold;color:#c2607a;margin-bottom:10px">📅 Kalender Check-in</div>
+        <div class="cal-grid" id="cal-grid"></div>
+
+        <div id="checkin-cta"></div>
+      </div>
+
+      <div class="group-section">
+        <h3>🌸 Gabung Grup Kami</h3>
+        <p>Dapat info loker lebih cepat!</p>
+        <a class="btn-group" href="https://chat.whatsapp.com/FFabFQqDoO4HonfpPx0HSs?mode=gi_t" target="_blank">💼 Grup Riset & Casting</a>
+        <a class="btn-group" href="https://chat.whatsapp.com/BC28zsl3QdLDQsUAy0QyTp?mode=gi_t" target="_blank">🎁 Grup Free Produk</a>
+      </div>
+
+    </div>
+
+    <!-- FORM SCREEN -->
+    <div class="screen" id="form-screen">
+      <div class="card">
+        <div class="card-title">✏️ Isi Form Check-in</div>
+        <div class="card-sub">Isi form di bawah ya, lalu klik tombol hijau setelah submit! 🌸</div>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQYpDK9Aic_hAYiWaB0-01O41XLRGg9Umj1m0_MYaJTos0sg/viewform?embedded=true">
+          Loading…
+        </iframe>
+        <button class="btn-green" onclick="formSubmitted()">✅ Sudah Submit — Tandai Check-in!</button>
+      </div>
+    </div>
+
+    <!-- DONE SCREEN -->
+    <div class="screen" id="done-screen">
+      <div class="card">
+        <div class="done-box">
+          <div class="done-emoji" id="done-emoji">✅</div>
+          <div class="done-title" id="done-title">Check-in Berhasil!</div>
+          <div class="done-msg" id="done-msg"></div>
+          <button class="btn-pink" onclick="goChallengeScreen()">Lihat Progress →</button>
+          <a class="btn-green" id="claim-btn" href="https://wa.me/628XXXXXXXXXXX" target="_blank" style="display:none">🎁 Klaim Hadiah via WhatsApp!</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <script>
+    const TOTAL = 30;
+    const SHOPEE = "https://s.shopee.co.id/1VwIafZsB9";
+    let timerDone = false;
+
+    function getData() {
+      try { return JSON.parse(localStorage.getItem("moodyap_challenge") || "{}"); } catch { return {}; }
+    }
+    function saveData(d) { localStorage.setItem("moodyap_challenge", JSON.stringify(d)); }
+
+    // GATE
+    function startTimer() {
+      if (timerDone) return;
+      let sisa = 5;
+      const timerText = document.getElementById('timerText');
+      const unlockBtn = document.getElementById('unlockBtn');
+      timerText.textContent = 'Tunggu ' + sisa + ' detik...';
+      const interval = setInterval(() => {
+        sisa--;
+        timerText.textContent = 'Tunggu ' + sisa + ' detik...';
+        if (sisa <= 0) {
+          clearInterval(interval);
+          timerDone = true;
+          unlockBtn.style.display = 'block';
+          timerText.textContent = '✅ Yeay bisa lanjut!';
+        }
+      }, 1000);
+    }
+
+    function unlockContent() {
+      document.getElementById('gate').style.display = 'none';
+      const d = getData();
+      if (d.name) document.getElementById('existing-btn').style.display = 'block';
+    }
+
+    // DAFTAR
+    function startChallenge() {
+      const name = document.getElementById('name-input').value.trim();
+      const wa = document.getElementById('wa-input').value.trim();
+      if (!name || !wa) { alert('Isi nama & nomor HP dulu ya! 🌸'); return; }
+      const d = getData();
+      if (!d.name) {
+        d.name = name; d.wa = wa; d.days = [];
+        saveData(d);
+      }
+      goChallengeScreen();
+    }
+
+    // CHALLENGE
+    function goChallengeScreen() {
+      const d = getData();
+      const done = d.days ? d.days.length : 0;
+      const today = new Date().toDateString();
+      const alreadyToday = d.days && d.days.includes(today);
+      const currentDay = done + 1;
+
+      document.getElementById('challenge-greeting').textContent = 'Hei, ' + (d.name || '') + '! 🌸';
+      document.getElementById('progress-text').textContent = done + '/' + TOTAL;
+      document.getElementById('progress-fill').style.width = (done / TOTAL * 100) + '%';
+      document.getElementById('days-left').textContent = (TOTAL - done) + ' hari lagi menuju hadiah 🎁';
+
+      // Calendar
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+      for (let i = 1; i <= TOTAL; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-cell';
+        if (i <= done) { cell.classList.add('done'); cell.textContent = '✓'; }
+        else if (i === currentDay && !alreadyToday) { cell.classList.add('today'); cell.textContent = i; }
+        else { cell.textContent = i; }
+        grid.appendChild(cell);
+      }
+
+      // CTA
+      const cta = document.getElementById('checkin-cta');
+      if (done >= TOTAL) {
+        cta.innerHTML = '<a href="https://wa.me/628XXXXXXXXXXX" class="btn-green" target="_blank">🎁 Klaim Hadiah via WhatsApp!</a>';
+      } else if (alreadyToday) {
+        cta.innerHTML = '<div class="already-done">✅ Sudah check-in hari ini! Balik lagi besok ya 🌸</div>';
+      } else {
+        cta.innerHTML = '<button class="btn-pink" onclick="doCheckin()">✅ Check-in Hari ke-' + currentDay + '!</button>';
+      }
+
+      show('challenge-screen');
+    }
+
+    // CHECKIN - gate shopee dulu
+    function doCheckin() {
+      const go = confirm('Udah klik link Shopee hari ini? 🛍️\n\nKlik OK kalau sudah, atau Cancel untuk buka Shopee dulu.');
+      if (!go) { window.open(SHOPEE, '_blank'); return; }
+      show('form-screen');
+    }
+
+    // FORM SUBMITTED
+    function formSubmitted() {
+      const d = getData();
+      const today = new Date().toDateString();
+      if (!d.days) d.days = [];
+      if (!d.days.includes(today)) { d.days.push(today); saveData(d); }
+      const done = d.days.length;
+
+      if (done >= TOTAL) {
+        document.getElementById('done-emoji').textContent = '🎉';
+        document.getElementById('done-title').textContent = 'Selamat! Kamu Berhasil! 🎉';
+        document.getElementById('done-msg').textContent = 'Kamu berhasil check-in 30 hari! Hubungi Moodyap untuk klaim hadiah random kamu ya! 🌸🎁';
+        document.getElementById('claim-btn').style.display = 'block';
+      } else {
+        document.getElementById('done-emoji').textContent = '✅';
+        document.getElementById('done-title').textContent = 'Check-in Hari ke-' + done + ' Berhasil!';
+        document.getElementById('done-msg').textContent = (TOTAL - done) + ' hari lagi menuju hadiah dari Moodyap! Semangat ya! 🌸';
+      }
+      show('done-screen');
+    }
+
+    function show(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // Init
+    window.onload = function() {
+      const d = getData();
+      if (d.name) document.getElementById('existing-btn').style.display = 'none';
+    };
+  </script>
+
+</body>
+</html>
