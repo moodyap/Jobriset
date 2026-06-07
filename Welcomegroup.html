@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <title>Panduan Member – Grup Riset & Casting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: rgb(228, 185, 211);
+      font-family: 'Nunito', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .header {
+      background: #f4a7c0; text-align: center;
+      padding: 28px 16px 22px; border-bottom: 2px solid #e87fa5;
+    }
+    .header h1 { color: white; font-size: 1.5rem; margin: 0; font-weight: 900; }
+    .header p { color: white; font-size: 0.8rem; margin-top: 6px; opacity: 0.9; }
+
+    /* CONTENT */
+    .content { padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 32px; }
+
+    /* TABS */
+    .tabs {
+      display: flex; gap: 8px; margin-bottom: 16px;
+      overflow-x: auto; padding-bottom: 2px;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      background: white; border: 1.5px solid #f4d0dc;
+      border-radius: 20px; padding: 8px 16px;
+      font-size: 0.72rem; font-weight: 800; color: #c2607a;
+      cursor: pointer; white-space: nowrap;
+      font-family: 'Nunito', Arial, sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: #f4a7c0; color: white; border-color: #f4a7c0; }
+
+    /* SCREENS */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* CARD */
+    .card {
+      background: white; border: 1.5px solid #f4d0dc;
+      border-radius: 16px; padding: 18px; margin-bottom: 16px;
+    }
+    .card-title { font-size: 1rem; font-weight: 800; color: #c2607a; margin-bottom: 10px; }
+    .card-sub { font-size: 0.75rem; color: #888; line-height: 1.7; margin-bottom: 12px; }
+
+    /* VIDEO */
+    .video-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 12px; overflow: hidden;
+      background: #fff0f5; margin-bottom: 8px;
+    }
+    .video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none; border-radius: 12px;
+    }
+    .video-label {
+      font-size: 0.7rem; color: #d4a0b0; text-align: center;
+      margin-bottom: 14px;
+    }
+
+    /* HOW TO */
+    .how-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      margin-bottom: 8px; font-size: 0.78rem;
+      color: #5a3d48; font-weight: 700; line-height: 1.6;
+    }
+
+    /* PRIZE BOX */
+    .prize-box {
+      background: #fff5f8; border: 1.5px solid #f4d0dc;
+      border-radius: 12px; padding: 14px; margin-bottom: 12px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .prize-emoji { font-size: 32px; flex-shrink: 0; }
+    .prize-title { font-size: 0.85rem; font-weight: 800; color: #c2607a; margin-bottom: 4px; }
+    .prize-desc { font-size: 0.72rem; color: #888; line-height: 1.6; }
+
+    /* BUTTONS */
+    .btn-green {
+      display: block; background: #78c478; color: white;
+      text-decoration: none; padding: 13px; border-radius: 10px;
+      font-size: 0.8rem; font-weight: 800; text-align: center;
+      margin-top: 8px; border: none; cursor: pointer; width: 100%;
+      font-family: 'Nunito', Arial, sans-serif;
+    }
+
+    /* GROUP SECTION */
+    .group-section {
+      background: white; border: 1.5px solid #f4d0dc;
+      border-radius: 16px; padding: 18px;
+      margin: 8px 0 20px; text-align: center;
+    }
+    .group-section h3 { color: #c2607a; font-size: 0.9rem; margin-bottom: 4px; font-weight: 900; }
+    .group-section p { color: #d4a0b0; font-size: 0.68rem; margin-bottom: 14px; }
+    .btn-group {
+      display: block; background: #78c478; color: white;
+      text-decoration: none; padding: 11px; border-radius: 10px;
+      font-size: 0.75rem; font-weight: 800; text-align: center; margin-bottom: 8px;
+    }
+
+    /* DRIVE NOTE */
+    .drive-note {
+      background: #fff0f5; border: 1px dashed #f4a7c0;
+      border-radius: 10px; padding: 10px 14px;
+      font-size: 0.7rem; color: #c2607a; text-align: center;
+      margin-bottom: 14px; font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🌸 Grup Riset & Casting</h1>
+    <p>Panduan lengkap untuk member baru</p>
+  </div>
+
+  <div class="content">
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('tab-apply', this)">📹 Cara Apply</button>
+      <button class="tab-btn" onclick="showTab('tab-giveaway', this)">🎁 Giveaway</button>
+      <button class="tab-btn" onclick="showTab('tab-grup', this)">👥 Grup</button>
+
+    </div>
+
+    <!-- TAB: CARA APPLY -->
+    <div class="screen active" id="tab-apply">
+      <div class="card">
+        <div class="card-title">📹 Tutorial Cara Apply Job</div>
+        <div class="card-sub">Tonton video di bawah untuk tahu cara apply job riset & casting dengan benar ya! 🌸</div>
+
+        <div class="drive-note">💡 Video dari Google Drive — pastikan koneksi stabil</div>
+
+        <!-- Ganti GANTI_ID_VIDEO_APPLY dengan ID file Drive kamu -->
+        <div class="video-wrap">
+          <iframe
+            src="https://drive.google.com/file/d/1QM8t0YBR2b4CxsiAeJN7Dx1u3uGoZnPz/view?usp=drivesdk"
+            allow="autoplay" allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-label">📁 Video Tutorial Apply Job</div>
+
+        <div class="card-title" style="margin-top:4px">📋 Langkah Apply Job</div>
+        <div class="how-item"><span>1️⃣</span><span>Tonton video tutorial sampai selesai</span></div>
+        <div class="how-item"><span>2️⃣</span><span>Pastikan kamu memenuhi syarat job yang tersedia</span></div>
+        <div class="how-item"><span>3️⃣</span><span>Chat nomor WA yang tertera di info job</span></div>
+        <div class="how-item"><span>4️⃣</span><span>Ikuti instruksi dari admin</span></div>
+        <div class="how-item"><span>5️⃣</span><span>Tunggu konfirmasi & selamat bekerja! 🎉</span></div>
+      </div>
+
+      <div class="group-section">
+        <h3>💼 Gabung Grup Info Job</h3>
+        <p>Dapat notif job terbaru langsung di WA!</p>
+        <a class="btn-group" href="https://chat.whatsapp.com/FFabFQqDoO4HonfpPx0HSs?mode=gi_t" target="_blank">💼 Grup Riset & Casting</a>
+        <a class="btn-group" href="https://chat.whatsapp.com/BC28zsl3QdLDQsUAy0QyTp?mode=gi_t" target="_blank">🎁 Grup Free Produk</a>
+      </div>
+    </div>
+
+    <!-- TAB: GIVEAWAY -->
+    <div class="screen" id="tab-giveaway">
+      <div class="card">
+        <div class="card-title">🎁 Tutorial Cara Ikut Giveaway</div>
+        <div class="card-sub">Tonton video ini dulu sebelum ikut giveaway ya! Biar gak salah langkah 🌸</div>
+
+        <div class="drive-note">💡 Video dari Google Drive — pastikan koneksi stabil</div>
+
+        <!-- Ganti GANTI_ID_VIDEO_GIVEAWAY dengan ID file Drive kamu -->
+        <div class="video-wrap">
+          <iframe
+            src="https://drive.google.com/file/d/1eJ6tMQ7BUO6bPhvailnTA6PzsixM4Eh_/view?usp=drivesdk"
+            allow="autoplay" allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-label">📁 Video Tutorial Ikut Giveaway</div>
+
+        <div class="prize-box">
+          <div class="prize-emoji">🎁</div>
+          <div>
+            <div class="prize-title">Hadiah Giveaway</div>
+            <div class="prize-desc">Berbagai hadiah menarik menanti kamu! Ikuti cara di video untuk bisa menang ya 🌸✨</div>
+          </div>
+        </div>
+
+        <div class="card-title">📋 Cara Ikut Giveaway</div>
+        <div class="how-item"><span>1️⃣</span><span>Tonton video tutorial sampai selesai</span></div>
+        <div class="how-item"><span>2️⃣</span><span>Ikuti semua syarat & ketentuan yang dijelaskan</span></div>
+        <div class="how-item"><span>3️⃣</span><span>Daftarkan diri sesuai instruksi di video</span></div>
+        <div class="how-item"><span>4️⃣</span><span>Tunggu pengumuman pemenang di grup 🎉</span></div>
+      </div>
+
+      <div class="group-section">
+        <h3>🎁 Jangan Ketinggalan Giveaway!</h3>
+        <p>Info giveaway terbaru selalu dipost di grup</p>
+        <a class="btn-group" href="https://chat.whatsapp.com/FFabFQqDoO4HonfpPx0HSs?mode=gi_t" target="_blank">💼 Grup Riset & Casting</a>
+        <a class="btn-group" href="https://chat.whatsapp.com/BC28zsl3QdLDQsUAy0QyTp?mode=gi_t" target="_blank">🎁 Grup Free Produk</a>
+      </div>
+    </div>
+
+    <!-- TAB: GRUP -->
+    <div class="screen" id="tab-grup">
+      <div class="card">
+        <div class="card-title">👥 Grup WhatsApp Kami</div>
+        <div class="card-sub">Gabung ke grup untuk dapat info job & giveaway paling cepat! Sudah 600+ member aktif 🌸</div>
+
+        <div class="prize-box" style="margin-bottom:16px">
+          <div class="prize-emoji">💼</div>
+          <div>
+            <div class="prize-title">Grup Riset & Casting</div>
+            <div class="prize-desc">Info job riset, casting, dan peluang penghasilan lainnya. Update setiap hari!</div>
+          </div>
+        </div>
+        <a class="btn-green" href="https://chat.whatsapp.com/FFabFQqDoO4HonfpPx0HSs?mode=gi_t" target="_blank">
+          📲 Gabung Grup Riset & Casting
+        </a>
+
+        <div style="height:16px"></div>
+
+        <div class="prize-box" style="margin-bottom:16px">
+          <div class="prize-emoji">🎁</div>
+          <div>
+            <div class="prize-title">Grup Free Produk</div>
+            <div class="prize-desc">Info giveaway, produk gratis, dan kesempatan dapat hadiah menarik!</div>
+          </div>
+        </div>
+        <a class="btn-green" href="https://chat.whatsapp.com/BC28zsl3QdLDQsUAy0QyTp?mode=gi_t" target="_blank">
+          📲 Gabung Grup Free Produk
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📌 Peraturan Grup</div>
+        <div class="how-item"><span>✅</span><span>Jaga sopan santun & saling menghormati</span></div>
+        <div class="how-item"><span>✅</span><span>Dilarang spam atau promosi di luar topik</span></div>
+        <div class="how-item"><span>✅</span><span>Info job hanya dari admin — hati-hati penipuan!</span></div>
+        <div class="how-item"><span>✅</span><span>Tonton video tutorial sebelum apply job atau ikut giveaway</span></div>
+        <div class="how-item"><span>✅</span><span>Pertanyaan? Chat admin, bukan di grup ya 🌸</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
